@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Человек</title>
+</head>
+<body>
+<form>
+    <label for="id">id</label>
+    <input type="text" id = "id" readonly th:value="${person.getId()}"/>
+    <br/>
+    <label for="fio">ФИО</label>
+    <input type="text" id = "fio" readonly th:value="${person.getFio()}"/>
+    <br/>
+    <label for="yearbday">Год рождения</label>
+    <input type="text" id = "yearbday" readonly th:value="${person.getYearbday()}"/>
+</form>
+<div th:switch="${books.isEmpty()}">
+    <p th:case="true">Человек не взял ни одной книги</p>
+
+    <div th:case="false">
+        <p>Книги у пользователя</p>
+        <p th:each="book : ${books}" th:style = "'color:' + @{(${book.reservationIsOverdue()}? 'red' : 'black')}" th:text = "${book.getName() + ', ' + book.getAuthor() + ', ' + book.getYear()}">book</p>
+    </div>
+</div>
+
+<form th:method="GET" th:action="@{/people/{id}/edit (id=${person.getId()})}">
+    <input type="submit" value="Изменить">
+</form>
+<form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
+    <input type="submit" value="Удалить">
+</form>
+
+</body>
+</html>
